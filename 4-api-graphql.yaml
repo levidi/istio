@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: on-premise
+  name: api-graphql
+  labels:
+    type: middleware
+spec:
+  selector:
+    matchLabels:
+      app: api-graphql
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: api-graphql
+        type: middleware
+    spec:
+      containers:
+      - name: api-graphql
+        image: leviditomazzo/api-graphql:v2
+        env:
+        - name: API_HOST
+          value: 'http://service-api-rest:4011'
+
+        - name: API_GRAPHQL_PORT
+          value: '4005'
+
+        - name: API_JAVA_HOST
+          value: 'http://service-api-rest-java:8080'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: on-premise
+  name: service-api-graphql
+  labels:
+    type: middleware
+spec:
+  selector:
+    app: api-graphql
+  ports:
+    - name: http
+      port: 4005
+      nodePort: 30090
+  type: NodePort

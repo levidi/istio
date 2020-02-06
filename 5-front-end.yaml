@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: on-premise
+  name: web-app
+  labels:
+    type: front-end
+spec:
+  selector:
+    matchLabels:
+      app: web-app
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: web-app
+        type: front-end
+    spec:
+      containers:
+      - name: web-app
+        image: leviditomazzo/front-end:beta1
+        env:
+        - name: REACT_APP_API_GRAPHQL_HOST
+          value: 'http://192.168.64.56:30090' # Altere para o IP do seu Cluster
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: on-premise
+  name: service-web-app
+  labels:
+    type: front-end
+spec:
+  selector:
+    app: web-app
+  ports:
+    - name: http
+      port: 3000
+      nodePort: 30180
+  type: NodePort
