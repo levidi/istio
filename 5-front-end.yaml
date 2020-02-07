@@ -21,7 +21,7 @@ spec:
         image: leviditomazzo/front-end:beta1
         env:
         - name: REACT_APP_API_GRAPHQL_HOST
-          value: 'http://192.168.64.56:30090' # Altere para o IP do seu Cluster
+          value: 'http://192.168.64.60:30090' # Altere para o IP do seu Cluster
 ---
 apiVersion: v1
 kind: Service

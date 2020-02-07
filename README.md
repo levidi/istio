@@ -43,3 +43,27 @@ kubectl apply -f 4-api-graphql.yaml
 ```bash
 kubectl apply -f 5-front-end.yaml
 ```
+
+# Istio
+
+```bash
+kubectl apply -f ./istio/secret-kiali.yaml
+```
+
+```bash
+istioctl manifest apply -f ./istio/config-istio.yaml
+```
+
+### Criando o NameSpace
+
+```bash
+kubectl apply -f 1-name-space.yaml
+```
+
+```bash
+kubectl label namespace on-premise istio-injection=enabled
+```
+
+```bash
+kubectl label namespace on-premise istio-injection=enabled --overwrite
+```
