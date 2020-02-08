@@ -1,0 +1,19 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vistual-service-api-java
+  namespace: on-premise
+spec:
+  hosts:
+    - service-api-rest-java
+  http:
+    - fault:
+        delay:
+          fixedDelay: 10s
+        # abort:
+        #   httpStatus: 503
+          percentage:
+            value: 100
+      route:
+        - destination:
+            host: service-api-rest-java

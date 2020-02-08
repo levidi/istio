@@ -67,3 +67,20 @@ kubectl label namespace on-premise istio-injection=enabled
 ```bash
 kubectl label namespace on-premise istio-injection=enabled --overwrite
 ```
+
+```bash
+curl -X POST \
+  http://192.168.64.73:30090/expense \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "idUser": "5000",
+    "companyName": "Arcos Dourados",
+    "value": 50.01,
+    "details": {
+        "cardNumber": "4716650221230609",
+        "cnpj": "55.474.589/0001-51",
+        "timeStamp": 1578243141,
+        "mapLocation": "<seu-cdn>/av-paulista.png"
+    }
+}'
+```

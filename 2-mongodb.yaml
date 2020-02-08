@@ -31,6 +31,5 @@ spec:
   selector:
     app: db
   ports:
-    - name: http
-      port: 27017
+    - port: 27017
   type: ClusterIP
