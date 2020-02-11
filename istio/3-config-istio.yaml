@@ -493,7 +493,7 @@ spec:
       createDemoSecret: false
       dashboard:
         grafanaURL: null
-        jaegerURL: null
+        jaegerURL: http://jaeger-query:16686 #null
         passphraseKey: passphrase
         secretName: kiali
         usernameKey: username
@@ -644,10 +644,10 @@ spec:
           monitoring: false
           topology: false
     tracing:
-      enabled: false
+      enabled: true # Habilitando rastreamento
       ingress:
         annotations: null
-        enabled: false
+        enabled: true # Habilitando o acesso fora do cluster
         hosts: null
         tls: null
       jaeger:

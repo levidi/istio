@@ -15,13 +15,14 @@ spec:
       labels:
         app: web-app
         type: front-end
+        version: production
     spec:
       containers:
       - name: web-app
-        image: leviditomazzo/front-end:v2
+        image: leviditomazzo/front-end:DarkRelease
         env:
         - name: REACT_APP_API_GRAPHQL_HOST
-          value: 'http://192.168.64.73:30090' # Altere para o IP do seu Cluster
+          value: 'http://192.168.64.88:30090' # Altere para o IP do seu Cluster
 ---
 apiVersion: v1
 kind: Service
@@ -33,6 +34,10 @@ metadata:
 spec:
   selector:
     app: web-app
+  # ports:
+  #   - port: 80
+  #     protocol: HTTP
+  #     targetPort: 3000
   ports:
     - name: http
       port: 3000

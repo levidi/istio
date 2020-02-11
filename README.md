@@ -70,7 +70,7 @@ kubectl label namespace on-premise istio-injection=enabled --overwrite
 
 ```bash
 curl -X POST \
-  http://192.168.64.73:30090/expense \
+  http://192.168.64.82:30090/expense \
   -H 'Content-Type: application/json' \
   -d '{
     "idUser": "5000",
