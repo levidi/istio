@@ -13,3 +13,10 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
+  # #teste
+  # - port:
+  #     number: 80
+  #     name: http-api-graphql
+  #     protocol: HTTP
+  #   hosts:
+  #   - "*"

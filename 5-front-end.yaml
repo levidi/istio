@@ -22,7 +22,7 @@ spec:
         image: leviditomazzo/front-end:DarkRelease
         env:
         - name: REACT_APP_API_GRAPHQL_HOST
-          value: 'http://192.168.64.88:30090' # Altere para o IP do seu Cluster
+          value: END_POINT_API_GRAPHQL #'http://192.168.64.89:30090' # Altere para o IP do seu Cluster
 ---
 apiVersion: v1
 kind: Service
@@ -35,11 +35,13 @@ spec:
   selector:
     app: web-app
   # ports:
-  #   - port: 80
-  #     protocol: HTTP
-  #     targetPort: 3000
+  #   - name: http
+  #     port: 3000
+  #     nodePort: 30180
+  # type: NodePort
+
+  # Depois de configurar o gateway 
   ports:
     - name: http
       port: 3000
-      nodePort: 30180
-  type: NodePort
+  type: ClusterIP

@@ -9,11 +9,25 @@ spec:
   gateways:
   - ingress-gateway.istio-system.svc.cluster.local # ingress-gateway
   http:
+  # # teste
   - match:
     - uri:
-        prefix: /
+        prefix: /graphql
+  
+    route:
+    - destination:
+        port:
+          number: 4005
+        host: service-api-graphql
+
+
+  - match:
+    # - uri:
+    #     prefix: /
+    - port: 80
     route:
     - destination:
         port:
           number: 3000
         host: service-web-app
+  
