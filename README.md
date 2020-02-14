@@ -85,12 +85,30 @@ curl -X POST \
 }'
 ```
 
+```bash
 kubectl port-forward svc/istio-ingressgateway 8080:80 -n istio-system
+```
 
-sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):31726/graphql|g" 5-front-end.yaml | kubectl apply -f -
+```bash
+sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[1].nodePort}')/graphql|g" 5-front-end.yaml | kubectl apply -f -
+```
 
+```bash
 istioctl dashboard kiali
-istioctl dashboard grafana
-istioctl dashboard grafana
+```
 
+```bash
+istioctl dashboard grafana
+```
+
+```bash
+istioctl dashboard grafana
+```
+
+```bash
+istioctl dashboard prometheus
+```
+
+```bash
 kubectl get svc istio-ingressgateway -n istio-system
+```
