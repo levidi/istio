@@ -1,0 +1,56 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: on-premise
+  name: vs-web-app
+spec:
+  hosts:
+  - "*"
+  gateways:
+  - ingress-gateway.istio-system.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: /graphql
+    route:
+    - destination:
+        port:
+          number: 4005
+        host: service-api-graphql
+
+  - match:
+  # CASE
+    - headers:  
+        x-custom-header:
+          exact: dark
+  # THEN
+    route: 
+    - destination:
+        # port:
+        #   number: 3000
+        host: service-web-app
+        subset: beta
+    # BREAK
+
+  # DEFAULT
+  - route:
+    - destination:
+        # port:
+        #   number: 3000
+        host: service-web-app
+        subset: production
+---
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  namespace: on-premise
+  name: service-web-app
+spec:
+  host: service-web-app
+  subsets:
+    - labels:
+        version: production
+      name: production
+    - labels:
+        version: beta
+      name: beta

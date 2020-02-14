@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: on-premise
-  name: web-app-dark
+  name: web-app-beta
   labels:
     type: front-end
 spec:
@@ -15,11 +15,11 @@ spec:
       labels:
         app: web-app
         type: front-end
-        version: dark
+        version: beta
     spec:
       containers:
       - name: web-app
         image: leviditomazzo/front-end:DarkRelease
         env:
         - name: REACT_APP_API_GRAPHQL_HOST
-          value: 'http://192.168.64.83:30090' # Altere para o IP do seu Cluster
+          value: END_POINT_API_GRAPHQL

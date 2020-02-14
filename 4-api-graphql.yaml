@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: api-graphql
-        image: leviditomazzo/api-graphql:v2
+        image: leviditomazzo/api-graphql:PropagateHeaders
         env:
         - name: API_HOST
           value: 'http://service-api-rest:4011'

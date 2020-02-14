@@ -112,3 +112,9 @@ istioctl dashboard prometheus
 ```bash
 kubectl get svc istio-ingressgateway -n istio-system
 ```
+
+## DarkRelease
+
+```bash
+cd ./istio/DarkRelease && sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[1].nodePort}')/graphql|g" 1-front-end-dark.yaml | kubectl apply -f -
+```
