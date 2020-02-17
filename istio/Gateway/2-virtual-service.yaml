@@ -7,9 +7,8 @@ spec:
   hosts:
   - "*"
   gateways:
-  - ingress-gateway.istio-system.svc.cluster.local # ingress-gateway
+  - ingress-gateway.istio-system.svc.cluster.local
   http:
-  # # teste
   - match:
     - uri:
         prefix: /graphql

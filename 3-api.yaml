@@ -26,7 +26,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: on-premise
+  namespace: on-premise-2
   name: api-rest-java
   labels:
     type: back-end
@@ -44,6 +44,31 @@ spec:
       containers:
       - name: api-rest-java
         image: leviditomazzo/api-rest-java:v1
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: on-premise
+  name: middleware-java
+  labels:
+    type: middleware
+spec:
+  selector:
+    matchLabels:
+      app: middleware-java
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app:  middleware-java
+        type: middleware
+    spec:
+      containers:
+      - name: middleware
+        image: fandrade/chamador-api
+        env:
+        - name: URL_SERVICO
+          value: 'http://service-api-rest-java.on-premise-2.svc.cluster.local:8080/retornaDados'
 ---
 apiVersion: v1
 kind: Service
@@ -64,7 +89,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: on-premise
+  namespace: on-premise-2
   name: service-api-rest-java
   labels:
     type: back-end
@@ -75,4 +100,20 @@ spec:
     - name: http
       port: 8080
       nodePort: 30070
+  type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: on-premise
+  name: service-middleware-java
+  labels:
+    type: middleware
+spec:
+  selector:
+    app: middleware-java
+  ports:
+    - name: http
+      port: 9003
+      nodePort: 30071
   type: NodePort
