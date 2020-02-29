@@ -5,7 +5,7 @@ metadata:
   namespace: on-premise
 spec:
   hosts:
-    - service-api-rest-java
+    - service-middleware-java
   http:
     - fault:
         abort:
@@ -14,4 +14,4 @@ spec:
             value: 100
       route:
         - destination:
-            host: service-api-rest-java
+            host: service-middleware-java

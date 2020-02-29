@@ -29,7 +29,7 @@ spec:
     - port: 15031
     route:
     - destination:
-        host: grafana
+        host: grafana.istio-system.svc.cluster.local
         port:
           number: 3000
 ---
@@ -39,7 +39,7 @@ metadata:
   name: grafana
   namespace: istio-system
 spec:
-  host: grafana
+  host: grafana.istio-system.svc.cluster.local
   trafficPolicy:
     tls:
       mode: DISABLE

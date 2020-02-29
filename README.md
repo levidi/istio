@@ -90,7 +90,15 @@ kubectl port-forward svc/istio-ingressgateway 8080:80 -n istio-system
 ```
 
 ```bash
-sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[1].nodePort}')/graphql|g" 5-front-end.yaml | kubectl apply -f -
+export INGRESS_PORT=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[1].nodePort}')
+```
+
+```bash
+sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 5-front-end.yaml | kubectl apply -f -
+```
+
+```bash
+open -a "Google Chrome" http://$(minikube ip):$INGRESS_PORT
 ```
 
 ```bash
@@ -116,5 +124,11 @@ kubectl get svc istio-ingressgateway -n istio-system
 ## RequestRouting
 
 ```bash
-cd ./istio/RequestRouting && sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[1].nodePort}')/graphql|g" 1-front-end-dark.yaml | kubectl apply -f -
+cd ./istio/RequestRouting && sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 1-front-end-dark.yaml | kubectl apply -f -
 ```
+
+istioctl manifest apply --set values.global.mtls.auto=true --set values.global.mtls.enabled=false
+
+
+
+istioctl manifest apply -f ./istio/3-config-istio.yaml --set values.global.disablePolicyChecks=false

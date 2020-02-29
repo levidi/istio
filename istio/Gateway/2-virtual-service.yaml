@@ -5,28 +5,25 @@ metadata:
   name: vs-web-app
 spec:
   hosts:
-  - "*"
+    - "*"
   gateways:
-  - ingress-gateway.istio-system.svc.cluster.local
+    - ingress-gateway.istio-system.svc.cluster.local
   http:
-  - match:
-    - uri:
-        prefix: /graphql
-  
-    route:
-    - destination:
-        port:
-          number: 4005
-        host: service-api-graphql
+    - match:
+      - uri:
+          prefix: /graphql
+      route:
+      - destination:
+          port:
+            number: 4005
+          host: service-api-graphql
 
-
-  - match:
-    # - uri:
-    #     prefix: /
-    - port: 80
-    route:
-    - destination:
-        port:
-          number: 3000
-        host: service-web-app
+    - match:
+      - uri:
+          prefix: /
+      route:
+      - destination:
+          port:
+            number: 3000
+          host: service-web-app
   

@@ -9,7 +9,7 @@ spec:
   host: service-api-rest-java.on-premise.svc.cluster.local
   trafficPolicy:
     outlierDetection:
-        # baseEjectionTime: 30s
-        # consecutiveErrors: 2
-        # interval: 10s
+        baseEjectionTime: 30s
+        consecutiveErrors: 5
+        interval: 10s
         maxEjectionPercent: 100

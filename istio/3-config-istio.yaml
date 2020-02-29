@@ -340,7 +340,7 @@ spec:
         useILB: false
       meshNetworks: {}
       mtls:
-        auto: false
+        auto: false # 
         enabled: false # 
       multiCluster:
         clusterName: ""
