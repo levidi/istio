@@ -1,0 +1,20 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: on-premise
+  name: vs-graphql
+spec:
+  hosts:
+    - "*"
+  gateways:
+    - ingress-gateway-configuration.istio-system.svc.cluster.local
+  http:
+    - name: "virtual-service-graphql"
+      match:
+      - uri:
+          prefix: /graphql
+      route:
+      - destination:
+          port:
+            number: 4005
+          host: service-api-graphql

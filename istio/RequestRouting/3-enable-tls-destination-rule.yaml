@@ -1,0 +1,17 @@
+kind: DestinationRule
+apiVersion: networking.istio.io/v1alpha3
+metadata:
+  namespace: on-premise
+  name: ds-service-web-app
+spec:
+  host: service-web-app.on-premise.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+  subsets:
+    - labels:
+        version: production
+      name: production
+    - labels:
+        version: beta
+      name: beta

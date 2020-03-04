@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
   namespace: istio-system
-  name: ingress-gateway
+  name: ingress-gateway-configuration
 spec:
   selector:
     istio: ingressgateway # Implementação padrão do Istio
@@ -13,10 +13,3 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-  # #teste
-  # - port:
-  #     number: 80
-  #     name: http-api-graphql
-  #     protocol: HTTP
-  #   hosts:
-  #   - "*"

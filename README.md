@@ -93,6 +93,23 @@ kubectl port-forward svc/istio-ingressgateway 8080:80 -n istio-system
 export INGRESS_PORT=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[1].nodePort}')
 ```
 
+
+curl -X POST \
+  http://$(minikube ip):30080/expense \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "idUser": "5000",
+    "companyName": "Arcos Dourados",
+    "value": 50.01,
+    "details": {
+        "cardNumber": "4716650221230609",
+        "cnpj": "55.474.589/0001-51",
+        "timeStamp": 1578243141,
+        "mapLocation": "https://financial-map.s3-sa-east-1.amazonaws.com/av-paulista.png"
+    }
+}'
+
+
 ```bash
 sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 5-front-end.yaml | kubectl apply -f -
 ```
@@ -124,11 +141,13 @@ kubectl get svc istio-ingressgateway -n istio-system
 ## RequestRouting
 
 ```bash
-cd ./istio/RequestRouting && sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 1-front-end-dark.yaml | kubectl apply -f -
+cd ./istio/RequestRouting
+```
+
+```bash
+sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 1-front-end-dark.yaml | kubectl apply -f -
 ```
 
 istioctl manifest apply --set values.global.mtls.auto=true --set values.global.mtls.enabled=false
-
-
 
 istioctl manifest apply -f ./istio/3-config-istio.yaml --set values.global.disablePolicyChecks=false

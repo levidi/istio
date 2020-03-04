@@ -11,7 +11,7 @@ spec:
   origins:
   - jwt:
       # audiences:
-      # - "https://api.storefront-demo.com/"
+      # - "https://levi-api-auth0"
       issuer: "https://leviditomazzo.auth0.com/"
       jwksUri: "https://leviditomazzo.auth0.com/.well-known/jwks.json"
   principalBinding: USE_ORIGIN
