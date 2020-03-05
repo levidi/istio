@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: on-premise
+  name: config-map-graphql
+  labels:
+    type: middleware
+data:
+  END_POINT_API_GRAPHQL: HOST 

@@ -1,3 +1,7 @@
+# Istioctl
+
+## Instalando o istio [Link](https://istio.io/docs/ops/diagnostic-tools/istioctl/)
+
 # Kubernetes
 
 ## Iniciando o minikube [Link](https://istio.io/docs/setup/platform-setup/minikube/)
@@ -146,6 +150,10 @@ cd ./istio/RequestRouting
 
 ```bash
 sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 1-front-end-dark.yaml | kubectl apply -f -
+```
+
+```bash
+sed -e "s|HOST|'http://$(minikube ip):$INGRESS_PORT/graphql'|g" 2-config-map.yaml | kubectl apply -f -
 ```
 
 istioctl manifest apply --set values.global.mtls.auto=true --set values.global.mtls.enabled=false

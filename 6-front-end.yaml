@@ -22,7 +22,10 @@ spec:
         image: leviditomazzo/front-end:v3
         env:
         - name: REACT_APP_API_GRAPHQL_HOST
-          value: END_POINT_API_GRAPHQL # http://192.168.64.121:31718/graphql # END_POINT_API_GRAPHQL
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-graphql
+              key: END_POINT_API_GRAPHQL
 ---
 apiVersion: v1
 kind: Service
@@ -34,13 +37,6 @@ metadata:
 spec:
   selector:
     app: web-app
-  # ports:
-  #   - name: http
-  #     port: 3000
-  #     nodePort: 30180
-  # type: NodePort
-
-  # Depois de configurar o gateway 
   ports:
     - name: http
       port: 3000

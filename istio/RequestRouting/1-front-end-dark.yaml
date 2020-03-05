@@ -22,4 +22,7 @@ spec:
         image: leviditomazzo/front-end:DarkRelease
         env:
         - name: REACT_APP_API_GRAPHQL_HOST
-          value: END_POINT_API_GRAPHQL
+          valueFrom:
+            configMapKeyRef:
+              name: config-map-graphql
+              key: END_POINT_API_GRAPHQL
