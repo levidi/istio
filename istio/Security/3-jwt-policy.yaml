@@ -1,17 +1,18 @@
 apiVersion: authentication.istio.io/v1alpha1
 kind: Policy
 metadata:
-  name: service-api-rest-auth-policy
+  name: auth-policy
   namespace: on-premise
 spec:
   targets:
+    - name: service-api-graphql
     - name: service-api-rest
   peers:
-  - mtls:
+  - mtls: {}
   origins:
   - jwt:
-      # audiences:
-      # - "https://levi-api-auth0"
+      audiences:
+      - "https://levi-api-auth0"
       issuer: "https://leviditomazzo.auth0.com/"
       jwksUri: "https://leviditomazzo.auth0.com/.well-known/jwks.json"
   principalBinding: USE_ORIGIN
