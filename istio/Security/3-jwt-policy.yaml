@@ -13,6 +13,6 @@ spec:
   - jwt:
       audiences:
       - "https://levi-api-auth0"
-      issuer: "https://leviditomazzo.auth0.com/"
-      jwksUri: "https://leviditomazzo.auth0.com/.well-known/jwks.json"
+      issuer: "https://dev-2m1d80cr.auth0.com/"
+      jwksUri: "https://dev-2m1d80cr.auth0.com/.well-known/jwks.json"
   principalBinding: USE_ORIGIN

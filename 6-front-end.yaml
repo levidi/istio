@@ -26,6 +26,15 @@ spec:
             configMapKeyRef:
               name: config-map-graphql
               key: END_POINT_API_GRAPHQL
+
+        - name: REACT_APP_DOMAIN
+          value: dev-2m1d80cr.auth0.com
+    
+        - name: REACT_APP_CLIENT_ID
+          value: hxpz5Wnp0HceVMejNZBTmSvhkUt7zHhX
+
+        - name: REACT_APP_AUDIENCE
+          value: https://levi-api-auth0
 ---
 apiVersion: v1
 kind: Service
