@@ -6,4 +6,4 @@ metadata:
   labels:
     type: middleware
 data:
-  END_POINT_API_GRAPHQL: HOST 
+  END_POINT_API_GRAPHQL: http://localhost/graphql

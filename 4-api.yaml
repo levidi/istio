@@ -2,6 +2,31 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   namespace: on-premise
+  name: api-simulation
+  labels:
+    type: back-end
+spec:
+  selector:
+    matchLabels:
+      app: api-simulation
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: api-simulation
+        type: back-end
+    spec:
+      containers:
+      - name: api-simulation
+        image: leviditomazzo/api-simulation:iof
+        env:
+        - name: PORT
+          value: '8084'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: on-premise
   name: api-rest
   labels:
     type: back-end
@@ -69,6 +94,22 @@ spec:
         env:
         - name: URL_SERVICO
           value: 'http://service-api-rest-java.on-premise-2.svc.cluster.local:8080/retornaDados'
+---
+apiVersion: v1
+kind: Service
+metadata:
+  namespace: on-premise
+  name: service-api-simulation
+  labels:
+    type: back-end
+spec:
+  selector:
+    app: api-simulation
+  ports:
+    - name: http
+      port: 8084
+      nodePort: 30074
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service

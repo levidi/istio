@@ -114,6 +114,23 @@ curl -X POST \
 }'
 
 
+
+curl -X POST \
+  http://localhost:30080/expense \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "idUser": "5000",
+    "companyName": "Arcos Dourados",
+    "value": 50.01,
+    "details": {
+        "cardNumber": "4716650221230609",
+        "cnpj": "55.474.589/0001-51",
+        "timeStamp": 1578243141,
+        "mapLocation": "https://financial-map.s3-sa-east-1.amazonaws.com/av-paulista.png"
+    }
+}'
+
+
 ```bash
 sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 5-front-end.yaml | kubectl apply -f -
 ```

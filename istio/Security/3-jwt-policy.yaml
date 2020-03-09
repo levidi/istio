@@ -7,7 +7,7 @@ spec:
   targets:
     - name: service-api-rest
   peers:
-  - mtls: {}
+  - mtls:
   origins:
   - jwt:
       # audiences:

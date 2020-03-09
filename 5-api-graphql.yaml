@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: api-graphql
-        image: leviditomazzo/api-graphql:v3
+        image: leviditomazzo/api-graphql:v5
         env:
         - name: API_HOST
           value: 'http://service-api-rest:4011'
@@ -26,8 +26,11 @@ spec:
         - name: API_GRAPHQL_PORT
           value: '4005'
 
-        - name: MIDDLEWARE_JAVA
+        - name: MIDDLEWARE_JAVA_HOST
           value: 'http://service-middleware-java:9003'
+
+        - name: API_SIMULATION_HOST
+          value: http://service-api-simulation:8084
 ---
 apiVersion: v1
 kind: Service
