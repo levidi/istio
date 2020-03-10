@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: web-app
-        image: leviditomazzo/front-end:DarkRelease
+        image: leviditomazzo/front-end:DarkReleaseV2
         env:
         - name: REACT_APP_API_GRAPHQL_HOST
           valueFrom:
