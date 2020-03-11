@@ -1,0 +1,61 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: on-premise
+  name: api-simulation-beta
+  labels:
+    type: back-end
+spec:
+  selector:
+    matchLabels:
+      app: api-simulation
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: api-simulation
+        type: back-end
+        version: beta
+    spec:
+      containers:
+      - name: api-simulation
+        image: leviditomazzo/api-simulation:v1
+        env:
+        - name: PORT
+          value: '8084'
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: vs-api-simulation
+  namespace: on-premise
+  labels:
+    kiali_wizard: weighted_routing
+spec:
+  hosts:
+    - service-api-simulation
+  http:
+    - route:
+        - destination:
+            host: service-api-simulation
+            subset: iof
+          weight: 20
+        - destination:
+            host: service-api-simulation
+            subset: beta
+          weight: 80
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ds-service-api-simulation
+  namespace: on-premise
+spec:
+  host: service-api-simulation
+  subsets:
+    - labels:
+        version: iof
+      name: iof
+    - labels:
+        version: beta
+      name: beta

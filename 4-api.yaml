@@ -15,6 +15,7 @@ spec:
       labels:
         app: api-simulation
         type: back-end
+        version: iof
     spec:
       containers:
       - name: api-simulation

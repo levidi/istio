@@ -17,8 +17,6 @@ spec:
     # THEN
       route: 
       - destination:
-          # port:
-          #   number: 3000
           host: service-web-app.on-premise.svc.cluster.local
           subset: beta
       # BREAK
@@ -26,7 +24,5 @@ spec:
     # DEFAULT
     - route:
       - destination:
-          # port:
-          #   number: 3000
           host: service-web-app.on-premise.svc.cluster.local
           subset: production
