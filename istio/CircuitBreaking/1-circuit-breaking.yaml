@@ -1,12 +1,12 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: DestinationRule
 metadata:
-  name: circuit-breaker-service-api-rest-java
+  name: circuit-breaker-service-middleware-java
   namespace: on-premise
   labels:
     type: circuit-breaker
 spec:
-  host: service-api-rest-java.on-premise-2.svc.cluster.local
+  host: service-middleware-java.on-premise.svc.cluster.local
   trafficPolicy:
     outlierDetection:
         baseEjectionTime: 30s
