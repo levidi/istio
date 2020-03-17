@@ -1,120 +1,88 @@
-# Istioctl
+# Kubernetes, Istio e OPA
 
-## Instalando o istio [Link](https://istio.io/docs/ops/diagnostic-tools/istioctl/)
+Essa aplicaçãp foi construida utilizando as seguinstes versões de cada tecnologia
 
-# Kubernetes
+> Istio versão 1.4.3
+> Kubernetes Client Version 1.17.4
+> Kubernetes Server Version 1.15.5
 
-## Iniciando o minikube [Link](https://istio.io/docs/setup/platform-setup/minikube/)
+## Kubernetes
 
+Habilitando o kubernetes no docker desktop
+
+![](./docs/docker-desktop.png)
+
+#### Alternativa
+
+Instalando o minikube [Link](https://kubernetes.io/docs/tasks/tools/install-minikube/)
+
+
+**Iniciando o minikube**
 ```bash
 minikube start --memory=16384 --cpus=4
 ```
 
-## Execute o comando abaixo para cada arquivo da aplicação 
+## Istio
+
+Instalando o istioctl Command-line [Link](https://archive.istio.io/v1.4/docs/setup/getting-started/#download)
+
+> Após iniciar o cluster kubernetes, execute os comandos abaixo
+
+**Iniciando o istio**
 
 ```bash
-kubectl apply -f {caminho-do-arquivo}
+$ sh init-istio.sh
 ```
 
-### Criando o NameSpace
+ Verifique se os containers estão rodando ***(READY)*** antes de iniciar os outros containers
 
 ```bash
-kubectl apply -f 1-name-space.yaml
+$ watch kubectl get po --all-namespaces
 ```
 
-### Implantando o banco de dados
+### Aplicação
 
-```bash
-kubectl apply -f 2-mongodb.yaml
+Se estiver usando o minikube, será necessário alterar o arquivo 2-config-map.yaml para o **ip** e **porta** do seu cluster
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: on-premise
+  name: config-map-graphql
+  labels:
+    type: middleware
+data:
+  END_POINT_API_GRAPHQL: http://{CLUSTER_IP}:{PORT}/graphql
 ```
 
-### Implantando as API`s REST
-
-```bash
-kubectl apply -f 3-api.yaml
-```
-
-### Implantando a API GraphQL
-
-```bash
-kubectl apply -f 4-api-graphql.yaml
-```
-
-### Implantando o front-end
-
-#### Lembre de alterar o IP do arquivo 5-front-end.yaml para o IP do seu Cluster
-
-```bash
-kubectl apply -f 5-front-end.yaml
-```
-
-# Istio
-
-```bash
-kubectl apply -f ./istio/secret-kiali.yaml
-```
-
-```bash
-istioctl manifest apply -f ./istio/config-istio.yaml
-```
-
-### Criando o NameSpace
-
-```bash
-kubectl apply -f 1-name-space.yaml
-```
-
-```bash
-kubectl label namespace on-premise istio-injection=enabled
-```
-
-```bash
-kubectl label namespace on-premise istio-injection=enabled --overwrite
-```
-
-```bash
-curl -X POST \
-  http://192.168.64.82:30090/expense \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "idUser": "5000",
-    "companyName": "Arcos Dourados",
-    "value": 50.01,
-    "details": {
-        "cardNumber": "4716650221230609",
-        "cnpj": "55.474.589/0001-51",
-        "timeStamp": 1578243141,
-        "mapLocation": "<seu-cdn>/av-paulista.png"
-    }
-}'
-```
-
-```bash
-kubectl port-forward svc/istio-ingressgateway 8080:80 -n istio-system
-```
+> Armazenando a porta de entrada do cluster (minikube)
 
 ```bash
 export INGRESS_PORT=$(kubectl get svc istio-ingressgateway -n istio-system -o jsonpath='{.spec.ports[1].nodePort}')
 ```
 
+> Alterando o arquivo 2-config-map.yaml (minikube)
 
-curl -X POST \
-  http://$(minikube ip):30080/expense \
-  -H 'Content-Type: application/json' \
-  -d '{
-    "idUser": "5000",
-    "companyName": "Arcos Dourados",
-    "value": 50.01,
-    "details": {
-        "cardNumber": "4716650221230609",
-        "cnpj": "55.474.589/0001-51",
-        "timeStamp": 1578243141,
-        "mapLocation": "https://financial-map.s3-sa-east-1.amazonaws.com/av-paulista.png"
-    }
-}'
+```bash
+sed -e "s|http://localhost/graphql|http://$(minikube ip):$INGRESS_PORT/graphql|g" 2-config-map.yaml | kubectl apply -f -
+```
 
+#### Iniciando a aplicação
 
+```bash
+sh init-demo-1.sh
+```
 
+```bash
+sh init-demo-2.sh
+```
+
+Inserindo dados de exemplo
+
+> Se estiver usando o minikube, alterar o ***localhost*** por **$*(minikube ip)***
+
+```bash
 curl -X POST \
   http://localhost:30080/expense \
   -H 'Content-Type: application/json' \
@@ -129,15 +97,42 @@ curl -X POST \
         "mapLocation": "https://financial-map.s3-sa-east-1.amazonaws.com/av-paulista.png"
     }
 }'
+```
 
+ Viasualizando a aplicação
 
 ```bash
-sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 5-front-end.yaml | kubectl apply -f -
+open -a "Google Chrome" http://localhost
 ```
+
+minikube
 
 ```bash
 open -a "Google Chrome" http://$(minikube ip):$INGRESS_PORT
 ```
+
+##### Visualizando o dashboard do kubernetes (***sem minikube***)
+
+Implanta o container do dashboard kubernetes
+```bash
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+```
+
+Recupera o token de acesso
+
+```bash
+kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk '{print $1}')
+```
+
+Disponibilizando o dashboard
+
+```bash
+kubectl proxy
+```
+
+Acesse o [dashboard](http://localhost:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/) informando o token
+
+**Visualizando as ferramentas de observability** 
 
 ```bash
 istioctl dashboard kiali
@@ -148,31 +143,9 @@ istioctl dashboard grafana
 ```
 
 ```bash
-istioctl dashboard grafana
+istioctl dashboard jaeger
 ```
 
 ```bash
 istioctl dashboard prometheus
 ```
-
-```bash
-kubectl get svc istio-ingressgateway -n istio-system
-```
-
-## RequestRouting
-
-```bash
-cd ./istio/RequestRouting
-```
-
-```bash
-sed -e "s|END_POINT_API_GRAPHQL|http://$(minikube ip):$INGRESS_PORT/graphql|g" 1-front-end-dark.yaml | kubectl apply -f -
-```
-
-```bash
-sed -e "s|HOST|'http://$(minikube ip):$INGRESS_PORT/graphql'|g" 2-config-map.yaml | kubectl apply -f -
-```
-
-istioctl manifest apply --set values.global.mtls.auto=true --set values.global.mtls.enabled=false
-
-istioctl manifest apply -f ./istio/3-config-istio.yaml --set values.global.disablePolicyChecks=false

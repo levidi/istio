@@ -29,8 +29,6 @@ kind: VirtualService
 metadata:
   name: vs-api-simulation
   namespace: on-premise
-  labels:
-    kiali_wizard: weighted_routing
 spec:
   hosts:
     - service-api-simulation

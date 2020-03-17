@@ -321,7 +321,7 @@ spec:
       defaultResources:
         requests:
           cpu: 10m
-      disablePolicyChecks: true
+      disablePolicyChecks: false # true 
       enableHelmTest: false
       enableTracing: true
       imagePullPolicy: IfNotPresent
@@ -588,7 +588,7 @@ spec:
       podAntiAffinityLabelSelector: []
       podAntiAffinityTermLabelSelector: []
       policy:
-        enabled: false
+        enabled: true # false
       replicaCount: 1
       tolerations: []
       traceSampling: 100 # Define a porcentagem de rastreio
