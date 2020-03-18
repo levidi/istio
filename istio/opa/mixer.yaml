@@ -9,7 +9,10 @@ spec:
     policy:
       - |+
         package mixerauthz
-        default allow = true
+        default allow = false
+        allow {
+          input.action.method == "GET"
+        }
     checkMethod: "data.mixerauthz.allow"
     failClose: true
 
@@ -22,13 +25,18 @@ metadata:
 spec:
   compiledTemplate: authorization
   params:
-    # subject:
-      # user: source.uid | ""
+    subject:
+      user: source.principal | request.auth.principal | ""
+      # groups: request.auth.claims["groups"] | ""
+      # properties:
+        # iss: request.auth.claims["iss"]
     action:
       namespace: destination.namespace | "default"
       service: destination.service.host | ""
       path: request.path | ""
       method: request.method | ""
+      # properties:
+        # version: destination.labels[version] | ""
 
 ---
 apiVersion: config.istio.io/v1alpha2
