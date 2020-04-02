@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   namespace: on-premise
-  name: vs-web-app
+  name: vs-graphql
 spec:
   hosts:
     - "*"
@@ -11,10 +11,17 @@ spec:
   http:
     - match:
       - uri:
+          prefix: /graphql
+      route:
+      - destination:
+          port:
+            number: 4005
+          host: service-api-graphql
+    - match:
+      - uri:
           prefix: /
       route:
       - destination:
           port:
             number: 3000
           host: service-web-app
-  
