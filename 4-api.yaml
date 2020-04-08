@@ -157,5 +157,5 @@ spec:
   ports:
     - name: http
       port: 9003
-      nodePort: 30071
+      nodePort: 30076
   type: NodePort
