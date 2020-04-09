@@ -2,13 +2,24 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   namespace: on-premise
-  name: vs-web-app
+  name: vs-ingress-gateway
+  labels:
+    kiali_wizard: matching_routing
 spec:
   hosts:
     - "*"
   gateways:
     - ingress-gateway-configuration.istio-system.svc.cluster.local
   http:
+    - match:
+      - uri:
+          prefix: /graphql
+      route:
+      - destination:
+          port:
+            number: 4005
+          host: service-api-graphql
+        weight: 100
     - match:
     # CASE
       - headers:  
@@ -19,6 +30,7 @@ spec:
       - destination:
           host: service-web-app.on-premise.svc.cluster.local
           subset: beta
+        weight: 100
       # BREAK
 
     # DEFAULT
@@ -26,3 +38,4 @@ spec:
       - destination:
           host: service-web-app.on-premise.svc.cluster.local
           subset: production
+        weight: 100

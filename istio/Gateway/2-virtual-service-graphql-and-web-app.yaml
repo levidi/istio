@@ -2,7 +2,7 @@ apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
   namespace: on-premise
-  name: vs-graphql
+  name: vs-ingress-gateway
 spec:
   hosts:
     - "*"
@@ -17,6 +17,7 @@ spec:
           port:
             number: 4005
           host: service-api-graphql
+        weight: 100
     - match:
       - uri:
           prefix: /
@@ -25,3 +26,4 @@ spec:
           port:
             number: 3000
           host: service-web-app
+        weight: 100

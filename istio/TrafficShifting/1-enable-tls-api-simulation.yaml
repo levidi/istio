@@ -54,6 +54,9 @@ metadata:
     kiali_wizard: weighted_routing
 spec:
   host: service-api-simulation
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
   subsets:
     - labels:
         version: iof
