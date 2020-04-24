@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: on-premise
+  name: api-graphql-v2
+  labels:
+    type: middleware
+spec:
+  selector:
+    matchLabels:
+      app: api-graphql
+  replicas: 1
+  template: 
+    metadata:
+      labels:
+        app: api-graphql
+        type: middleware
+        version: v2
+    spec:
+      containers:
+      - name: api-graphql
+        image: leviditomazzo/api-graphql:v6-PropagateJWT-log-v2
+        env:
+        - name: API_HOST
+          value: 'http://service-api-rest:4011'
+
+        - name: API_GRAPHQL_PORT
+          value: '4005'
+
+        - name: MIDDLEWARE_JAVA_HOST
+          value: 'http://service-middleware-java:9003'
+
+        - name: API_SIMULATION_HOST
+          value: http://service-api-simulation:8084
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  namespace: on-premise
+  name: vs-api-graphql
+spec:
+  hosts:
+    - service-api-graphql
+  http:
+  - route:
+    - destination:
+        host: service-api-graphql
+        subset: production
+      weight: 100
+    mirror:
+      host: service-api-graphql
+      subset: version-mirror
+    mirror_percent: 100

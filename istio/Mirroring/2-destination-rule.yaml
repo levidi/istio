@@ -1,0 +1,13 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: ds-api-graphql
+spec:
+  host: service-api-graphql
+  subsets:
+  - name: production
+    labels:
+      version: v1
+  - name: version-mirror
+    labels:
+      version: v2
