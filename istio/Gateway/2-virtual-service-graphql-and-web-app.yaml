@@ -1,13 +1,13 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: VirtualService
 metadata:
-  namespace: on-premise
+  namespace: istio-system
   name: vs-ingress-gateway
 spec:
   hosts:
     - "*"
   gateways:
-    - ingress-gateway-configuration.istio-system.svc.cluster.local
+    - ingress-gateway-configuration
   http:
     - match:
       - uri:
@@ -16,7 +16,7 @@ spec:
       - destination:
           port:
             number: 4005
-          host: service-api-graphql
+          host: service-api-graphql.on-premise.svc.cluster.local
         weight: 100
     - match:
       - uri:
@@ -25,5 +25,5 @@ spec:
       - destination:
           port:
             number: 3000
-          host: service-web-app
+          host: service-web-app.on-premise.svc.cluster.local
         weight: 100

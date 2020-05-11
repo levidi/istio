@@ -16,7 +16,6 @@ Habilitando o kubernetes no docker desktop
 
 Instalando o minikube [Link](https://kubernetes.io/docs/tasks/tools/install-minikube/)
 
-
 **Iniciando o minikube**
 ```bash
 minikube start --memory=16384 --cpus=4
@@ -149,3 +148,39 @@ istioctl dashboard jaeger
 ```bash
 istioctl dashboard prometheus
 ```
+
+##### Espelhando requisições (Mirroring)
+
+```bash
+kubectl apply -f ./istio/Mirroring/1-mirroring-api-graphql.yaml
+```
+
+Caso **não** tenha habilitado o mTLS
+
+```bash
+kubectl apply -f ./istio/Mirroring/2-destination-rule.yaml
+```
+
+Caso tenha habilitado o mTlS
+kubectl apply -f ./istio/Mirroring/2-enable-tls-destination-rule.yaml
+
+```bash
+export V1_POD=$(kubectl get pod -l app=api-graphql,version=v1 -o jsonpath={.items..metadata.name} -n on-premise) \
+&& kubectl logs -f $V1_POD -c api-graphql -n on-premise
+```
+```bash
+export V2_POD=$(kubectl get pod -l app=api-graphql,version=v2 -o jsonpath={.items..metadata.name} -n on-premise) \
+&& kubectl logs -f $V2_POD -c api-graphql -n on-premise
+```
+
+```bash
+while true; \
+  do curl -X POST \
+    http://localhost/graphql \
+    -H 'Content-Type: application/json' \
+    -d '{"query":"mutation { simulate(simulation: { \n  interestRate: 1.99, loanAmount: 500.00, days: 20 \n}) {value tax}}"}'; \
+  sleep 0.5; echo; \
+done
+```
+
+docker run --name k6-loadimpact --rm -i loadimpact/k6:master run - <./test/service-middleware-java.js
