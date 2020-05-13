@@ -8,8 +8,14 @@ metadata:
 spec:
   host: service-middleware-java.on-premise.svc.cluster.local
   trafficPolicy:
+    connectionPool:
+      tcp:
+        maxConnections: 1
+      http:
+        http1MaxPendingRequests: 1
+        maxRequestsPerConnection: 1
     outlierDetection:
-        baseEjectionTime: 30s
-        consecutiveErrors: 2
-        interval: 10s
+        consecutiveErrors: 1
+        interval: 1s
+        baseEjectionTime: 1m
         maxEjectionPercent: 100
