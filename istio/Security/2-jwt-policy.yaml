@@ -1,17 +1,47 @@
-apiVersion: "authentication.istio.io/v1alpha1"
-kind: "Policy"
+# apiVersion: "authentication.istio.io/v1alpha1"
+# kind: "Policy"
+# metadata:
+#   name: auth-policy
+#   namespace: on-premise
+# spec:
+#   targets:
+#   - name: service-api-graphql
+#   peers:
+#   - mtls: {}
+#   origins:
+#   - jwt:
+#       # audiences:
+#       # - "https://levi-api-auth0"
+#       issuer: "https://dev-2m1d80cr.auth0.com/"
+#       jwksUri: "https://dev-2m1d80cr.auth0.com/.well-known/jwks.json"
+#   principalBinding: USE_ORIGIN  
+# ---
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: request-policy
+  namespace: on-premise
+spec:
+  selector:
+    matchLabels:
+      app: api-graphql
+  jwtRules:
+  - issuer: "https://dev-2m1d80cr.auth0.com/"
+    jwksUri: "https://dev-2m1d80cr.auth0.com/.well-known/jwks.json"
+---
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
 metadata:
   name: auth-policy
   namespace: on-premise
 spec:
-  targets:
-  - name: service-api-graphql
-  peers:
-  - mtls: {}
-  origins:
-  - jwt:
-      audiences:
-      - "https://levi-api-auth0"
-      issuer: "https://dev-2m1d80cr.auth0.com/"
-      jwksUri: "https://dev-2m1d80cr.auth0.com/.well-known/jwks.json"
-  principalBinding: USE_ORIGIN  
+  selector:
+    matchLabels:
+      app: api-graphql
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+  # - to:
+  #   - operation:
+  #       paths: ["/healthz"]
