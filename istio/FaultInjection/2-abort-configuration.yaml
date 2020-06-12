@@ -3,9 +3,11 @@ kind: VirtualService
 metadata:
   name: virtual-service-api-java
   namespace: on-premise
+  labels:
+    kiali_wizard: suspend_traffic
 spec:
   hosts:
-    - service-middleware-java
+    - service-middleware-java.on-premise.svc.cluster.local
   http:
     - fault:
         abort:
@@ -14,4 +16,4 @@ spec:
             value: 100
       route:
         - destination:
-            host: service-middleware-java
+            host: service-middleware-java.on-premise.svc.cluster.local

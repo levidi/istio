@@ -2,7 +2,7 @@
 
 Essa aplicaçãp foi construida utilizando as seguinstes versões de cada tecnologia
 
-> Istio versão 1.5.1
+> Istio versão 1.6
 > Kubernetes Client Version 1.17.4
 > Kubernetes Server Version 1.15.5
 
@@ -183,4 +183,6 @@ while true; \
 done
 ```
 
-docker run --name k6-loadimpact --rm -i loadimpact/k6:master run - <./test/service-middleware-java.js
+docker run -e HOST=192.168.0.14 --name k6-loadimpact --rm -i loadimpact/k6:master run - <./test/service-middleware-java.js
+
+

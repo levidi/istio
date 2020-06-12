@@ -5,13 +5,12 @@ metadata:
   namespace: on-premise
 spec:
   hosts:
-    - service-middleware-java
+  - service-middleware-java.on-premise.svc.cluster.local
   http:
-  - route:
-    - destination:
-        host: service-middleware-java
-    timeout: 2s
-    retries:
-      attempts: 3
-      perTryTimeout: 2s
-        
+    - route:
+      - destination:
+          host: service-middleware-java.on-premise.svc.cluster.local
+      timeout: 0.2s
+      retries:
+        attempts: 1
+        perTryTimeout: 1s

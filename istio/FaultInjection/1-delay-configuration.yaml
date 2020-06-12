@@ -5,13 +5,13 @@ metadata:
   namespace: on-premise
 spec:
   hosts:
-    - service-middleware-java
+    - service-middleware-java.on-premise.svc.cluster.local
   http:
     - fault:
         delay:
-          fixedDelay: 10s
+          fixedDelay: 5s
           percentage:
             value: 100
       route:
         - destination:
-            host: service-middleware-java
+            host: service-middleware-java.on-premise.svc.cluster.local

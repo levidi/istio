@@ -1,0 +1,23 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: circuit-breaker-service-middleware-java
+  namespace: on-premise
+  labels:
+    type: circuit-breaker
+spec:
+  host: service-middleware-java.on-premise.svc.cluster.local
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
+    connectionPool:
+      tcp:
+        maxConnections: 1
+      http:
+        http1MaxPendingRequests: 1
+        maxRequestsPerConnection: 1
+    outlierDetection:
+        consecutiveErrors: 1
+        interval: 1s
+        baseEjectionTime: 2m
+        maxEjectionPercent: 100

@@ -7,7 +7,7 @@ spec:
   hosts:
     - "*"
   gateways:
-    - ingress-gateway-configuration
+    - ingress-gateway-configuration.istio-system.svc.cluster.local
   http:
     - match:
       - uri:

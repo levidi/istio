@@ -33,7 +33,7 @@ metadata:
     kiali_wizard: weighted_routing
 spec:
   hosts:
-    - service-api-simulation
+    - service-api-simulation.on-premise.svc.cluster.local
   http:
     - route:
         - destination:
@@ -53,7 +53,7 @@ metadata:
   labels:
     kiali_wizard: weighted_routing
 spec:
-  host: service-api-simulation
+  host: service-api-simulation.on-premise.svc.cluster.local
   subsets:
     - labels:
         version: iof
