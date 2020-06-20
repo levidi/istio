@@ -1,0 +1,28 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: ext-authz
+  namespace: on-premise 
+spec:
+  workloadSelector:
+    labels:
+      app: api-rest
+  configPatches:
+  - applyTo: HTTP_FILTER
+    match:
+      context: SIDECAR_INBOUND
+      listener:
+        filterChain:
+          filter:
+            name: "envoy.http_connection_manager"
+            subFilter:
+              name: "envoy.router" 
+    patch:
+      operation: INSERT_BEFORE
+      value:
+        name: envoy.ext_authz
+        config:
+          grpc_service:
+            google_grpc:
+              target_uri: 0.0.0.0:50051
+              stat_prefix: "ext_authz"
