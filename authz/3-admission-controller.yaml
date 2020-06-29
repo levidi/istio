@@ -16,15 +16,15 @@ spec:
       containers:
       - name: webhook-server
         imagePullPolicy: Never
-        image: leviditomazzo/admission-controller-k8s:v1
+        image: leviditomazzo/admission-controller-k8s:v6
         volumeMounts:
           - readOnly: true
-            mountPath: /usr/src/app/certs
-            name: server-cert
+            mountPath: /configMap
+            name: inject-container
       volumes:
-        - name: server-cert
-          secret:
-            secretName: server-cert
+        - name: inject-container
+          configMap:
+            name: inject-container
 ---
 apiVersion: v1
 kind: Service
