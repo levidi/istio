@@ -23,9 +23,11 @@ spec:
         name: envoy.ext_authz
         config:
           with_request_body:
+            # failure_mode_allow: false
             max_request_bytes: 8192
             allow_partial_message: true
           grpc_service:
             google_grpc:
               target_uri: 0.0.0.0:50051
               stat_prefix: "ext_authz"
+            timeout: 15.0s

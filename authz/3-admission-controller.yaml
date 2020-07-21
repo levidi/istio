@@ -16,15 +16,15 @@ spec:
       containers:
       - name: webhook-server
         imagePullPolicy: Never
-        image: leviditomazzo/admission-controller-k8s:v6
-        volumeMounts:
-          - readOnly: true
-            mountPath: /configMap
-            name: inject-container
-      volumes:
-        - name: inject-container
-          configMap:
-            name: inject-container
+        image: leviditomazzo/admission-controller-k8s:v2
+      #   volumeMounts:
+      #     - readOnly: true
+      #       mountPath: /configMap
+      #       name: inject-container
+      # volumes:
+      #   - name: inject-container
+      #     configMap:
+      #       name: inject-container
 ---
 apiVersion: v1
 kind: Service
