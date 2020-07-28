@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: on-premise 
+  name: on-premise-api-rest-security
+data:
+  policy.rego: |
+    package security
+
+    default allow = false
+
+    allow {
+        input.profile == data.rules[_].profile[_]
+    }
+    

@@ -183,6 +183,26 @@ while true; \
 done
 ```
 
+##### Stress test
+
+```bash
 docker run -e HOST=192.168.0.14 --name k6-loadimpact --rm -i loadimpact/k6:master run - <./test/service-middleware-java.js
+```
 
+##### Authz 
 
+```bash
+kubectl exec -it {pod_name} -c authz -n on-premise -- /bin/sh
+```
+
+```bash
+cat /configMap/validate-profile.rego
+```
+
+```bash
+ultrahook policy http://localhost:30078
+```
+
+```bash
+kubectl logs -f -c policy-manager -n security {pod_name}
+```
