@@ -91,7 +91,7 @@ spec:
     spec:
       containers:
       - name: middleware
-        image: fandrade/chamador-api
+        image: leviditomazzo/chamador-api:v1
         env:
         - name: URL_SERVICO
           value: 'http://service-api-rest-java.on-premise-2.svc.cluster.local:8080/retornaDados'

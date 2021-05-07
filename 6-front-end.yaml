@@ -28,10 +28,10 @@ spec:
               key: END_POINT_API_GRAPHQL
 
         - name: REACT_APP_DOMAIN
-          value: dev-2m1d80cr.auth0.com
+          value: leviditomazzo.auth0.com
     
         - name: REACT_APP_CLIENT_ID
-          value: hxpz5Wnp0HceVMejNZBTmSvhkUt7zHhX
+          value: b1oE7t6uLIYpBv0OYSD28VJTCFTvYxcN
 
         - name: REACT_APP_AUDIENCE
           value: https://levi-api-auth0

@@ -8,8 +8,8 @@ spec:
     matchLabels:
       app: api-graphql
   jwtRules:
-  - issuer: "https://dev-2m1d80cr.auth0.com/"
-    jwksUri: "https://dev-2m1d80cr.auth0.com/.well-known/jwks.json"
+  - issuer: "https://leviditomazzo.auth0.com/"
+    jwksUri: "https://leviditomazzo.auth0.com/.well-known/jwks.json"
 ---
 apiVersion: security.istio.io/v1beta1
 kind: AuthorizationPolicy

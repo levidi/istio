@@ -2,7 +2,7 @@
 
 Essa aplicaçãp foi construida utilizando as seguinstes versões de cada tecnologia
 
-> Istio versão 1.6
+> Istio versão 1.9
 > Kubernetes Client Version 1.17.4
 > Kubernetes Server Version 1.15.5
 
@@ -82,7 +82,7 @@ Inserindo dados de exemplo
 > Se estiver usando o minikube, alterar o ***localhost*** por **$*(minikube ip)***
 
 ```bash
-curl -X POST \
+curl POST \
   http://localhost:30080/expense \
   -H 'Content-Type: application/json' \
   -d '{
@@ -93,7 +93,7 @@ curl -X POST \
         "cardNumber": "4716650221230609",
         "cnpj": "55.474.589/0001-51",
         "timeStamp": 1578243141,
-        "mapLocation": "https://financial-map.s3-sa-east-1.amazonaws.com/av-paulista.png"
+        "mapLocation": "https://p2.trrsf.com/image/fget/cf/640/0/images.terra.com/2020/09/24/maps.JPG"
     }
 }'
 ```
