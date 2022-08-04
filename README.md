@@ -2,9 +2,9 @@
 
 Essa aplicaçãp foi construida utilizando as seguinstes versões de cada tecnologia
 
-> Istio versão 1.9
-> Kubernetes Client Version 1.17.4
-> Kubernetes Server Version 1.15.5
+> Istio versão 1.14
+> Kubernetes Client Version 1.24.3
+> Kubernetes Server Version 1.23.8
 
 ## Kubernetes
 
