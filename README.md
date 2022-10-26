@@ -23,7 +23,11 @@ minikube start --memory=16384 --cpus=4
 
 ## Istio
 
-Instalando o istioctl Command-line [Link](https://archive.istio.io/v1.4/docs/setup/getting-started/#download)
+Instalando o istioctl Command-line [Link](https://istio.io/latest/docs/setup/getting-started/#download)
+
+```bash
+curl -L https://istio.io/downloadIstio | sh -
+```
 
 > Após iniciar o cluster kubernetes, execute os comandos abaixo
 
